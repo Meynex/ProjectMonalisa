@@ -16,7 +16,7 @@ public class Main
 		
 		  //loads the images => should go to external class for final product
 //	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
-		  BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\eclipse-workspace\\EvoLisaTest\\src\\CompanionCubeOri.png"));
+		  BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
 
 	      		  
 	  
@@ -29,7 +29,7 @@ public class Main
 	      // gets the starting fitness
 	      Fitness f = new Fitness(OriImage);
 	      
-	      f.setImage("C:\\Users\\Robin\\eclipse-workspace\\EvoLisaTest\\src\\CompanionCubeComp.png");
+	      f.setImage("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
 	      NewFitness = f.getFitness();
 	      OldFitness = NewFitness;
 	      System.out.println(NewFitness);
@@ -37,7 +37,7 @@ public class Main
 	      
 	      // gets the fitness for the new image => will be looped in the final version
 	      
-	      f.setImage("C:\\Users\\Robin\\eclipse-workspace\\EvoLisaTest\\src\\CompanionCubeComp2.png");
+	      f.setImage("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
 	      NewFitness = f.getFitness();
 	      
 	      System.out.println(NewFitness);
