@@ -1,14 +1,17 @@
-package test;
+package ProjectMonalisa;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +24,7 @@ import javax.swing.JLayeredPane;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -60,10 +64,13 @@ public class GUI extends JPanel {
 	public GUI() {
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	public void run() {
+		//frame.
+	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 828, 553);
@@ -92,7 +99,7 @@ public class GUI extends JPanel {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("BtnStart Clicked");
-				
+				run();
 				//frame.add(panel_2.add(new paint()));
 				//event start
 			}
@@ -111,8 +118,21 @@ public class GUI extends JPanel {
 		btnOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldOpen.setText(FileOpenDialog());
-				Image StartImg = new Image(textFieldOpen.getText());
-				//TODO/panel.add(StartImg);
+				
+				//jf
+				/*Image StartImg = new Image(textFieldOpen.getText());
+				JLabel Jl1 = new JLabel();
+				Jl1.setIcon(StartImg);
+				
+				frame.getContentPane().add(Jl1, BorderLayout.CENTER);
+				//TODO/panel.add(StartImg);*/
+				String AbsImg = textFieldOpen.getText();
+				try {
+					Image.DisplayImage(AbsImg);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -204,18 +224,18 @@ public class GUI extends JPanel {
 	public static String FileOpenDialog()
     {
 		/*
-        // Erstellung unseres FileFilters fÃ¼r Bilddateien
+        // Erstellung unseres FileFilters für Bilddateien
         FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg");         
         JFileChooser chooser = new JFileChooser("c:/programmierung/beispieldateien");
-        // Filter wird unserem JFileChooser hinzugefÃ¼gt
+        // Filter wird unserem JFileChooser hinzugefügt
         chooser.addChoosableFileFilter(filter);
         JFileChooser.setDefaultLocale(getDefaultLocale());
         int result = chooser.
         // Erzeugung eines neuen Frames mit dem Titel "Dateiauswahl"
         JFrame meinJFrame = new JFrame("Dateiauswahl");
-        // Wir setzen die Breite auf 450 und die HÃ¶he auf 300 Pixel
+        // Wir setzen die Breite auf 450 und die Höhe auf 300 Pixel
         meinJFrame.setSize(450,300);
-        // Hole dir den ContentPane und fÃ¼ge diesem unseren JColorChooser hinzu
+        // Hole dir den ContentPane und füge diesem unseren JColorChooser hinzu
         meinJFrame.getContentPane().add(chooser);
         // Wir lassen unseren Frame anzeigen
         meinJFrame.setVisible(true);*/
@@ -237,13 +257,17 @@ public class GUI extends JPanel {
         	return null;
         }
     }
-        public class Image{
+    public static class Image{
+
         
-        public Image(String text) {
+        public Image() {
 				// TODO Auto-generated constructor stub
+        	String AbsPath = null;
+        	String Name = "";
+        	
 			}
 
-		public BufferedImage Read(String AbsPath){
+		public BufferedImage getBufImg(String AbsPath){
         try
         {
             BufferedImage picture = ImageIO.read(new File(AbsPath));
@@ -258,5 +282,61 @@ public class GUI extends JPanel {
         }
         return null;
         }
+		
+		public static void DisplayImage(String AbsPath) throws IOException
+	    {
+	        BufferedImage img=ImageIO.read(new File(AbsPath));
+	        ImageIcon icon=new ImageIcon(img);
+	        JFrame frame=new JFrame();
+	        frame.setLayout(new FlowLayout());
+	        frame.setSize(200,300);
+	        JLabel lbl=new JLabel();
+	        lbl.setIcon(icon);
+	        frame.add(lbl);
+	        frame.setVisible(true);
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    }
+		
+		public static void ResizeAbs(String inputImagePath,
+	            String outputImagePath, int scaledWidth, int scaledHeight)
+	            throws IOException {
+	        // reads input image
+	        File inputFile = new File(inputImagePath);
+	        BufferedImage inputImage = ImageIO.read(inputFile);
+	 
+	        // creates output image
+	        BufferedImage outputImage = new BufferedImage(scaledWidth,
+	                scaledHeight, inputImage.getType());
+	 
+	        // scales the input image to the output image
+	        Graphics2D g2d = outputImage.createGraphics();
+	        g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
+	        g2d.dispose();
+	 
+	        // extracts extension of output file
+	        String formatName = outputImagePath.substring(outputImagePath
+	                .lastIndexOf(".") + 1);
+	 
+	        // writes to output file
+	        ImageIO.write(outputImage, formatName, new File(outputImagePath));
+	    }
+	 
+	    /**
+	     * Resizes an image by a percentage of original size (proportional).
+	     * @param inputImagePath Path of the original image
+	     * @param outputImagePath Path to save the resized image
+	     * @param percent a double number specifies percentage of the output image
+	     * over the input image.
+	     * @throws IOException
+	     */
+	    public static void ResizePer(String inputImagePath,
+	            String outputImagePath, double percent) throws IOException {
+	        File inputFile = new File(inputImagePath);
+	        BufferedImage inputImage = ImageIO.read(inputFile);
+	        int scaledWidth = (int) (inputImage.getWidth() * percent);
+	        int scaledHeight = (int) (inputImage.getHeight() * percent);
+	        resize(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
+	    }
     }
-	}
+    
+}
