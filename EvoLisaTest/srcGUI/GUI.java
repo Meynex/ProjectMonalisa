@@ -1,46 +1,40 @@
-/**
- * Author: Jan Schulze
-/*
- * @author 
- *
- */
 
+import java.awt.AlphaComposite;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSplitPane;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+
+import javax.swing.Icon;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
-
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.TimerTask;
-
-import javax.swing.JLayeredPane;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+//import /src/StretchIcon.java;
 
 public class GUI extends JPanel {
 
@@ -76,12 +70,17 @@ public class GUI extends JPanel {
 	public void run() {
 		//frame.
 	}
+	 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 828, 553);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 828, 553);					// Set the Size of the Window
+		frame.setMinimumSize(new Dimension(828,553));			// Set a fixed MinSize of the Window
+		frame.setLocationRelativeTo( null );					// Set Window in the Middle
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// Do Exit on the Window Cross
 		
 		JPanel panel = new JPanel();
+		JPanel panel_1 = new JPanel();
+		JPanel panel_3 = new JPanel();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -94,11 +93,20 @@ public class GUI extends JPanel {
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(1.0);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panel.add(splitPane);
 		
 		JLayeredPane panel_2 = new JLayeredPane();
 		splitPane.setRightComponent(panel_2);
+		
+		JLabel lblimage1 = new JLabel("Text");
+		lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblimage1.setVerticalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblImage2 = new JLabel("");
+		lblImage2.setIcon(null);
+		lblImage2.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
@@ -119,6 +127,7 @@ public class GUI extends JPanel {
 		
 		JFormattedTextField formattedTextField = new JFormattedTextField();
 		
+		
 		JButton btnOpen = new JButton("Open");
 		btnOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -131,18 +140,39 @@ public class GUI extends JPanel {
 				
 				frame.getContentPane().add(Jl1, BorderLayout.CENTER);
 				//TODO/panel.add(StartImg);*/
-				String AbsImg = textFieldOpen.getText();
-				try {
-					Image.DisplayImage(AbsImg);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(textFieldOpen.getText().isEmpty())System.err.println("\nTextfield is empty.");
+				else 
+				{
+					textFieldOpen.setEditable(false);
+					String AbsImg = textFieldOpen.getText();
+					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
+					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
+					//lblimage1.setIcon(new ImageIcon(AbsImg));
+					lblimage1.setPreferredSize(panel_1.getPreferredSize());
+					lblimage1.setIcon(new StretchIcon(AbsImg,true));
+					
 				}
-				
 			}
+
 		});
 		
 		JButton btnSave = new JButton("Save");
+		
+		//panel_1.addComponentListener(new ComponentAdapter());
+		
+		panel_1.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				lblimage1.setAlignmentY(CENTER_ALIGNMENT);
+				lblimage1.setPreferredSize(panel_1.getSize());
+				lblimage1.setVerticalAlignment(SwingConstants.CENTER);
+				lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
+				//lblimage1.setSize(panel_1.getPreferredSize());
+				//lblimage1.
+			
+			}
+		});
+		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -159,14 +189,14 @@ public class GUI extends JPanel {
 						.addComponent(btnSave))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldOpen, GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+						.addComponent(textFieldOpen, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
 						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(42, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(23)
+					.addContainerGap(23, Short.MAX_VALUE)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnStart)
 						.addComponent(textFieldOpen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -177,23 +207,30 @@ public class GUI extends JPanel {
 						.addComponent(btnPause)
 						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSave))
-					.addContainerGap(30, Short.MAX_VALUE))
+					.addGap(30))
 		);
 		panel_2.setLayout(gl_panel_2);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
-		splitPane_1.setResizeWeight(0.0);
+		splitPane_1.setResizeWeight(.5d);
 		splitPane.setLeftComponent(splitPane_1);
 		
-		JPanel panel_1 = new JPanel();
+		
 		splitPane_1.setLeftComponent(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 200, 200));
 		
-		JPanel panel_3 = new JPanel();
+						
 		FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
 		flowLayout.setVgap(200);
 		flowLayout.setHgap(200);
 		splitPane_1.setRightComponent(panel_3);
+		
+		panel_1.add(lblimage1);
+		panel_3.add(lblImage2);
+		//splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
+		//splitPane_1.setEnabled(false);	// ****************************//
+		
+		
 		frame.getContentPane().setLayout(groupLayout);
 	}
 	public void paint(Graphics g) {
@@ -229,18 +266,18 @@ public class GUI extends JPanel {
 	public static String FileOpenDialog()
     {
 		/*
-        // Erstellung unseres FileFilters f�r Bilddateien
+        // Erstellung unseres FileFilters für Bilddateien
         FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg");         
         JFileChooser chooser = new JFileChooser("c:/programmierung/beispieldateien");
-        // Filter wird unserem JFileChooser hinzugef�gt
+        // Filter wird unserem JFileChooser hinzugefügt
         chooser.addChoosableFileFilter(filter);
         JFileChooser.setDefaultLocale(getDefaultLocale());
         int result = chooser.
         // Erzeugung eines neuen Frames mit dem Titel "Dateiauswahl"
         JFrame meinJFrame = new JFrame("Dateiauswahl");
-        // Wir setzen die Breite auf 450 und die H�he auf 300 Pixel
+        // Wir setzen die Breite auf 450 und die Höhe auf 300 Pixel
         meinJFrame.setSize(450,300);
-        // Hole dir den ContentPane und f�ge diesem unseren JColorChooser hinzu
+        // Hole dir den ContentPane und füge diesem unseren JColorChooser hinzu
         meinJFrame.getContentPane().add(chooser);
         // Wir lassen unseren Frame anzeigen
         meinJFrame.setVisible(true);*/
@@ -265,7 +302,7 @@ public class GUI extends JPanel {
     public static class Image{
 
         
-        public Image() {
+		public Image() {
 				// TODO Auto-generated constructor stub
         	String AbsPath = null;
         	String Name = "";
@@ -293,13 +330,19 @@ public class GUI extends JPanel {
 	        BufferedImage img=ImageIO.read(new File(AbsPath));
 	        ImageIcon icon=new ImageIcon(img);
 	        JFrame frame=new JFrame();
-	        frame.setLayout(new FlowLayout());
+	        frame.getContentPane().setLayout(new FlowLayout());
 	        frame.setSize(200,300);
 	        JLabel lbl=new JLabel();
 	        lbl.setIcon(icon);
-	        frame.add(lbl);
+	        frame.getContentPane().add(lbl);
 	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    }
+		public static void DisplayImage(String AbsPath, JLabel lbl) throws IOException
+	    {
+	        BufferedImage img=ImageIO.read(new File(AbsPath));
+	        ImageIcon icon=new ImageIcon(img);
+	        lbl.setIcon(icon);
 	    }
 		
 		public static void ResizeAbs(String inputImagePath,
@@ -340,8 +383,23 @@ public class GUI extends JPanel {
 	        BufferedImage inputImage = ImageIO.read(inputFile);
 	        int scaledWidth = (int) (inputImage.getWidth() * percent);
 	        int scaledHeight = (int) (inputImage.getHeight() * percent);
-	        resize(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
+	        ResizeAbs(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
+	    }
+	    public static ImageIcon ResizeImg(String AbsPath, JPanel pan) {
+	    	
+	    	BufferedImage img = null;
+	    	try {
+	    	    img = ImageIO.read(new File(AbsPath));
+	    	} catch (IOException e) {
+	    	    e.printStackTrace();
+	    	}
+	    	
+	    	java.awt.Image dimg = img.getScaledInstance(pan.getWidth(), pan.getHeight(),
+	    	        java.awt.Image.SCALE_SMOOTH);
+	    	
+	    	ImageIcon imageIcon = new ImageIcon(dimg);
+	    	return imageIcon;
 	    }
     }
-    
+   
 }
