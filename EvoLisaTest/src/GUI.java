@@ -39,8 +39,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class GUI extends JPanel {
 
 	private JFrame frame;
-	private JTextField textFieldOpen;
-
+	private static JTextField textFieldOpen;
+	private static Thread t1;
+	
+	private static double OldFitness = 0;
+    private static double NewFitness = 0;
+    private static boolean interupt=false;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -67,12 +72,32 @@ public class GUI extends JPanel {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public void run() {
+	private void start() 
+	{
+		t1 = new Thread(){
+			@Override
+			public void run(){
+			try {
+				Compare(textFieldOpen.getText());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			};
+		};
+		t1.start();
 		
-		Main.main(textFieldOpen.getText());
 	}
+	private void stop()
+	{
+		t1.stop();
+	}
+		
+		
 	 
 	private void initialize() {
+				
+	
 		frame = new JFrame();
 		frame.setBounds(100, 100, 828, 553);					// Set the Size of the Window
 		frame.setMinimumSize(new Dimension(828,553));			// Set a fixed MinSize of the Window
@@ -112,15 +137,21 @@ public class GUI extends JPanel {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//interupt=false;
 				System.out.println("BtnStart Clicked");
-				run();
+				start();
 				//frame.add(panel_2.add(new paint()));
 				//event start
 			}
 		});
 		
 		JButton btnStop = new JButton("Stop");
-		
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stop();
+			}
+});
+			
 		textFieldOpen = new JTextField();
 		textFieldOpen.setColumns(10);
 		
@@ -228,8 +259,8 @@ public class GUI extends JPanel {
 		
 		panel_1.add(lblimage1);
 		panel_3.add(lblImage2);
-		//splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
-		//splitPane_1.setEnabled(false);	// ****************************//
+		splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
+		splitPane_1.setEnabled(false);	// ****************************//
 		
 		
 		frame.getContentPane().setLayout(groupLayout);
@@ -246,9 +277,11 @@ public class GUI extends JPanel {
     {
 		//TODO////
 		/////////
+		//SaveFilePath
 		JFileChooser input = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
        
+        //input.setCurrentDirectory();
         input.setFileFilter(filter);
         input.setAcceptAllFileFilterUsed(false);
         int result1 = input.showOpenDialog(input);
@@ -283,8 +316,10 @@ public class GUI extends JPanel {
         // Wir lassen unseren Frame anzeigen
         meinJFrame.setVisible(true);*/
         //chooser.		
+		
         JFileChooser input = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        input.setCurrentDirectory(new File("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src"));
         input.setFileFilter(filter);
         input.setAcceptAllFileFilterUsed(false);
         int result1 = input.showOpenDialog(input);
@@ -299,5 +334,54 @@ public class GUI extends JPanel {
         	
         	return null;
         }
+    }
+        public static void Compare(String PathOri) throws IOException 
+  	  {
+  		  
+  		
+  		  //loads the images => should go to external class for final product
+//  	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
+  		  //BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
+  		  BufferedImage OriImage = ImageIO.read(new File (PathOri));
+  		  	  
+  	  
+  	      // maybe add to Fitness class?
+  	      
+  	      //initialises the new and old fitness for comparison
+  	      //double OldFitness = 0;
+  	      //double NewFitness = 0;
+  	      
+  	      // gets the starting fitness
+  	      Fitness f = new Fitness(OriImage);
+  	      
+  	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
+  	      NewFitness = f.getFitness();
+  	      OldFitness = NewFitness;
+  	      System.out.println(NewFitness);
+
+  	      Mutation M = new Mutation();
+  	      // gets the fitness for the new image => will be looped in the final version
+  	      do{
+  	      
+
+  	  
+  	    
+  	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
+  	      NewFitness = f.getFitness();
+  	      
+  	      System.out.println(NewFitness);
+  	      
+  	      // checks if the new fitness is better than the old and if so replaces it.
+  	      if(NewFitness < OldFitness)
+  	      {
+  	    	  System.out.println("improvement.");
+  	    	  OldFitness = NewFitness;
+  	      }
+  	      
+  	      
+  	      M.Mutate();
+  	      }while(!interupt);
+  	      
+  	    
     }
 }
