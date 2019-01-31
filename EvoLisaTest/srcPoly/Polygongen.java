@@ -5,7 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 	
  class Polygongen extends JPanel {
-	 //erstellen der Klasse Polygon
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//erstellen der Klasse Polygon
 	 final double alpha = 0.1;
 	 //private int x;		// x-Koordinaten der Polygone
 	 //private int y;		// y-Koordinaten der Polygone
@@ -25,7 +29,7 @@ import javax.swing.JPanel;
 	
 	 public void setPointY(Point po, int i, int y) 
 	  {
-		p[i].ypoints[y]= new Point(p[i].xpoints);
+		p[i].ypoints[y]= new Point();
 	  }
 	  
 	  public void setGruen(int i, int z)

@@ -3,13 +3,13 @@ import java.awt.Graphics;
 	import javax.swing.JFrame;
 	import javax.swing.JPanel;
 
-public class Main
+public class Poly
 {
 	static final int AnzPoly=50; //erzeugen der Polygone
 	public static void main(String[] args) 
 	{
 		
-		Polygongen poly[] = new Polygongen();
+		Polygongen poly[] = new Polygongen[];
 		for (int i=0; i < AnzPoly; i++)
 		{
 			poly[i];

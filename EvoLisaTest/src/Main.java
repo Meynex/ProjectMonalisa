@@ -16,8 +16,9 @@ public class Main
 		
 		  //loads the images => should go to external class for final product
 //	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
-		  BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
-
+		  //BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
+		  BufferedImage OriImage = ImageIO.read(new File (args[0]));
+ 	
 	      		  
 	  
 	      // maybe add to Fitness class?
@@ -29,7 +30,7 @@ public class Main
 	      // gets the starting fitness
 	      Fitness f = new Fitness(OriImage);
 	      
-	      f.setImage("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
+	      f.setImage(args[0]);
 	      NewFitness = f.getFitness();
 	      OldFitness = NewFitness;
 	      System.out.println(NewFitness);
