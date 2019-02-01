@@ -1,8 +1,10 @@
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -22,7 +24,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -34,6 +35,8 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import javafx.stage.FileChooser;
+
 //import /src/StretchIcon.java;
 
 public class GUI extends JPanel {
@@ -41,10 +44,13 @@ public class GUI extends JPanel {
 	private JFrame frame;
 	private static JTextField textFieldOpen;
 	private static Thread t1;
+	private static JLabel lblGenVar = new JLabel("0");
+	private static JLabel lblimpVar = new JLabel("0");
+	private static JLabel lblFitnessVal = new JLabel("0");
 	
+	private static int GenVal =0, ImpVal=0;
 	private static double OldFitness = 0;
     private static double NewFitness = 0;
-    private static boolean interupt=false;
 	
 	/**
 	 * Launch the application.
@@ -127,12 +133,13 @@ public class GUI extends JPanel {
 		splitPane.setRightComponent(panel_2);
 		
 		JLabel lblimage1 = new JLabel("Text");
-		lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblimage1.setVerticalAlignment(SwingConstants.CENTER);
+		//lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
+		//lblimage1.setVerticalAlignment(SwingConstants.CENTER);
+		//lblimage1.addAncestorListener(listener);
 		
-		JLabel lblImage2 = new JLabel("");
-		lblImage2.setIcon(null);
-		lblImage2.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblimage2 = new JLabel("");
+		lblimage2.setIcon(null);
+		lblimage2.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
@@ -157,7 +164,7 @@ public class GUI extends JPanel {
 		
 		JButton btnPause = new JButton("Pause");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
+		JTextField TextFieldSave = new JTextField();
 		
 		
 		JButton btnOpen = new JButton("Open");
@@ -172,27 +179,46 @@ public class GUI extends JPanel {
 				
 				frame.getContentPane().add(Jl1, BorderLayout.CENTER);
 				//TODO/panel.add(StartImg);*/
-				if(textFieldOpen.getText().isEmpty())System.err.println("\nTextfield is empty.");
+				if(textFieldOpen.getText().isEmpty())System.err.println("\nTextfield Open is empty.");
 				else 
 				{
 					textFieldOpen.setEditable(false);
 					String AbsImg = textFieldOpen.getText();
 					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
+					//lblimage1.setPreferredSize(panel_1.getPreferredSize());
+					//lblimage1.setIcon(new StretchIcon(AbsImg,false));
 					//lblimage1.setIcon(new ImageIcon(AbsImg));
-					lblimage1.setPreferredSize(panel_1.getPreferredSize());
-					lblimage1.setIcon(new StretchIcon(AbsImg,true));
-					
+					lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 				}
 			}
 
 		});
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String FileAbsPath = FileSaveDialog();
+				if(FileAbsPath==null)System.err.println("\nUser has Abort."); 
+				else TextFieldSave.setText(FileAbsPath);
+				if(TextFieldSave.getText().isEmpty())System.err.println("\nTextfield Save is empty.");
+				else 
+				{
+					TextFieldSave.setEditable(false);
+					String AbsImg = TextFieldSave.getText();
+					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
+					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
+					//lblimage1.setIcon(new ImageIcon(AbsImg));
+					lblimage2.setPreferredSize(panel_2.getPreferredSize());
+					lblimage2.setIcon(new StretchIcon(AbsImg,true));
+					
+				}
+			}
+		});
 		
 		//panel_1.addComponentListener(new ComponentAdapter());
 		
-		panel_1.addComponentListener(new ComponentAdapter() {
+		/*panel_1.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				lblimage1.setAlignmentY(CENTER_ALIGNMENT);
@@ -203,7 +229,26 @@ public class GUI extends JPanel {
 				//lblimage1.
 			
 			}
-		});
+		});*/
+		//		GRAFISCHE OBERFLÄCHE
+		JLabel lblGenerations = new JLabel("Generations");
+		lblGenerations.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblGenVar = new JLabel("0");
+		lblGenVar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblGenVar.setForeground(Color.BLACK);
+		
+		JLabel lblImprovements = new JLabel("Improvements");
+		lblImprovements.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblimpVar = new JLabel("0");
+		lblimpVar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JLabel lblFitness = new JLabel("Fitness");
+		lblFitness.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblFitnessVal = new JLabel("0");
+		lblFitnessVal.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
@@ -220,10 +265,23 @@ public class GUI extends JPanel {
 						.addComponent(btnOpen)
 						.addComponent(btnSave))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(textFieldOpen)
+						.addComponent(TextFieldSave, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldOpen, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(42, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblGenerations)
+						.addComponent(lblImprovements))
+					.addGap(18)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblimpVar)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(lblGenVar)
+							.addGap(42)
+							.addComponent(lblFitness)
+							.addGap(18)
+							.addComponent(lblFitnessVal)))
+					.addGap(46))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -233,12 +291,18 @@ public class GUI extends JPanel {
 						.addComponent(btnStart)
 						.addComponent(textFieldOpen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnOpen)
-						.addComponent(btnStop))
+						.addComponent(btnStop)
+						.addComponent(lblGenerations)
+						.addComponent(lblGenVar)
+						.addComponent(lblFitness)
+						.addComponent(lblFitnessVal))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnPause)
-						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSave))
+						.addComponent(TextFieldSave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSave)
+						.addComponent(lblImprovements)
+						.addComponent(lblimpVar))
 					.addGap(30))
 		);
 		panel_2.setLayout(gl_panel_2);
@@ -258,7 +322,7 @@ public class GUI extends JPanel {
 		splitPane_1.setRightComponent(panel_3);
 		
 		panel_1.add(lblimage1);
-		panel_3.add(lblImage2);
+		panel_3.add(lblimage2);
 		splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
 		splitPane_1.setEnabled(false);	// ****************************//
 		
@@ -279,15 +343,20 @@ public class GUI extends JPanel {
 		/////////
 		//SaveFilePath
 		JFileChooser input = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        //FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        
+        //FileFilter filter = new FileNameExtensionFilter(name, null);
        
         //input.setCurrentDirectory();
-        input.setFileFilter(filter);
-        input.setAcceptAllFileFilterUsed(false);
+        //input.setFileFilter(filter);
+        //input.setAcceptAllFileFilterUsed(false);
+        input.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result1 = input.showOpenDialog(input);
         if (result1 == JFileChooser.APPROVE_OPTION) {
         	System.out.println("Apply was Selected");
-            return input.getSelectedFile().getAbsolutePath();
+        	  
+        	return input.getSelectedFile().getPath();
+            //return input.getCurrentDirectory().getAbsolutePath();
         } else if (result1 == JFileChooser.CANCEL_OPTION) {
             System.out.println("Cancel was selected");
             return null;
@@ -363,8 +432,6 @@ public class GUI extends JPanel {
   	      // gets the fitness for the new image => will be looped in the final version
   	      do{
   	      
-
-  	  
   	    
   	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
   	      NewFitness = f.getFitness();
@@ -375,12 +442,18 @@ public class GUI extends JPanel {
   	      if(NewFitness < OldFitness)
   	      {
   	    	  System.out.println("improvement.");
+  	    	  ImpVal++;
+  	    	  lblimpVar.setText(Integer.toString(ImpVal));
   	    	  OldFitness = NewFitness;
+  	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
   	      }
   	      
-  	      
+  	    
   	      M.Mutate();
-  	      }while(!interupt);
+  	      GenVal++;
+  	      lblGenVar.setText(Integer.toString(GenVal));
+  	      lblGenVar.updateUI();
+  	      }while(true);
   	      
   	    
     }
