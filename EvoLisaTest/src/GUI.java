@@ -1,5 +1,6 @@
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -132,10 +133,9 @@ public class GUI extends JPanel {
 		JLayeredPane panel_2 = new JLayeredPane();
 		splitPane.setRightComponent(panel_2);
 		
-		JLabel lblimage1 = new JLabel("Text");
-		//lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
-		//lblimage1.setVerticalAlignment(SwingConstants.CENTER);
-		//lblimage1.addAncestorListener(listener);
+		JLabel lblimage1 = new JLabel("");
+		lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblimage1.setVerticalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblimage2 = new JLabel("");
 		lblimage2.setIcon(null);
@@ -187,9 +187,9 @@ public class GUI extends JPanel {
 					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
 					//lblimage1.setPreferredSize(panel_1.getPreferredSize());
-					//lblimage1.setIcon(new StretchIcon(AbsImg,false));
+					lblimage1.setIcon(new StretchIcon(AbsImg,true));
 					//lblimage1.setIcon(new ImageIcon(AbsImg));
-					lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
+					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 				}
 			}
 
@@ -217,8 +217,8 @@ public class GUI extends JPanel {
 		});
 		
 		//panel_1.addComponentListener(new ComponentAdapter());
-		
-		/*panel_1.addComponentListener(new ComponentAdapter() {
+		/*
+		panel_1.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				lblimage1.setAlignmentY(CENTER_ALIGNMENT);
@@ -250,6 +250,62 @@ public class GUI extends JPanel {
 		JLabel lblFitnessVal = new JLabel("0");
 		lblFitnessVal.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
+		/*GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(21)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnPause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnStop, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+					.addGap(45)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnOpen)
+						.addComponent(btnSave))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(textFieldOpen)
+						.addComponent(TextFieldSave, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblGenerations)
+						.addComponent(lblImprovements))
+					.addGap(18)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblimpVar)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(lblGenVar)
+							.addGap(42)
+							.addComponent(lblFitness)
+							.addGap(18)
+							.addComponent(lblFitnessVal)))
+					.addGap(46))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap(23, Short.MAX_VALUE)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnStart)
+						.addComponent(textFieldOpen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOpen)
+						.addComponent(btnStop)
+						.addComponent(lblGenerations)
+						.addComponent(lblGenVar)
+						.addComponent(lblFitness)
+						.addComponent(lblFitnessVal))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnPause)
+						.addComponent(TextFieldSave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSave)
+						.addComponent(lblImprovements)
+						.addComponent(lblimpVar))
+					.addGap(30))
+		);
+		panel_2.setLayout(gl_panel_2);*/
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -321,8 +377,11 @@ public class GUI extends JPanel {
 		flowLayout.setHgap(200);
 		splitPane_1.setRightComponent(panel_3);
 		
+		panel_1.setLayout(new BorderLayout(0, 0)); // BorderLayout to fix the Fullfill 
 		panel_1.add(lblimage1);
+		panel_3.setLayout(new BorderLayout(0, 0));
 		panel_3.add(lblimage2);
+		
 		splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
 		splitPane_1.setEnabled(false);	// ****************************//
 		
