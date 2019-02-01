@@ -1,8 +1,4 @@
 
-import java.awt.image.BufferedImage;
-//import java.awt.image.DataBufferByte;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.io.*;
 
 
@@ -13,52 +9,40 @@ public class Main
 	  public static void main(String[] args) throws IOException 
 	  {
 		  
-		
-		  //loads the images => should go to external class for final product
-//	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
-		  BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
+		  String PathOri = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeOri.png";
+		  String Path;
+  
+	      // Initializes fitness and Mutation objects and gives the original image to fitness
+	      Fitness f = new Fitness(PathOri);
+	      Mutation M = new Mutation();      
 
-	      		  
-	  
-	      // maybe add to Fitness class?
-	      
-	      //initialises the new and old fitness for comparison
-	      double OldFitness = 0;
-	      double NewFitness = 0;
-	      
-	      // gets the starting fitness
-	      Fitness f = new Fitness(OriImage);
-	      
-	      f.setImage("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
-	      NewFitness = f.getFitness();
-	      OldFitness = NewFitness;
-	      System.out.println(NewFitness);
-
-	      
-	      // gets the fitness for the new image => will be looped in the final version
-	      
-	      f.setImage("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
-	      NewFitness = f.getFitness();
-	      
-	      System.out.println(NewFitness);
-	      
-	      // checks if the new fitness is better than the old and if so replaces it.
-	      if(NewFitness < OldFitness)
-	      {
-	    	  System.out.println("improvement.");
-	    	  OldFitness = NewFitness;
-	      }
-	      
-	      
-	      Mutation M = new Mutation();
+	      // start of the do-while Loop
+	      // checks the image its given on its fitness and afterwards mutates the next version
+	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp.png";
+	      f.getFitness(Path);
 	      M.Mutate();
+
+	      // end of the do-while loop
 	      
-
-	  }
-
-		  
+	      // for testing only. usually handled by do-while loop
+	      // checks the image its given on its fitness and afterwards mutates the next version
+	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
+	      f.getFitness(Path);
+	      M.Mutate();
+	  }	  
 }
 
 
 
-//C:\Users\Robin\eclipse-workspace\EvoLisaTest\src\pic\CompanionCube.jpg
+
+/*
+Meine Main is basicly unnötig!
+in der haut main müssen nur die beiden Objekte instanziert werden (Fitness und Mutation)
+Fitness baraucht den PFAD für das Original bild als argument (string)
+danach kann man mir über <Fitness name>.getFitness(<Vergleichsbild pfad>) die fitness abrufen
+auch hier ist der pfad des vergleichsbild im argument wieder ein string
+
+achtung die klasse die meine sachen aufruft erwartet das " throws IOException " und damit einhergehend 
+" import java.io.*; "
+
+*/
