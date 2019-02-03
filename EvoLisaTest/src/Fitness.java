@@ -21,6 +21,7 @@ public class Fitness
     private boolean better = false;			//used to tell if the result is better
     private int improvements = 0;			// counts the number of improvements
     Fitness(BufferedImage Ori) throws IOException
+    
 	  {
 		  OriImage = Ori;
 	  }
