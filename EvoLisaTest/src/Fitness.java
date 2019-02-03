@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 
 
 
+
 public class Fitness  
 {
 	private BufferedImage OriImage;			//the original Image
