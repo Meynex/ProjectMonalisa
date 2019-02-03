@@ -19,7 +19,6 @@ public class Fitness
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
     private boolean better = false;			//used to tell if the result is better
-    private long improvements = 0;			// counts the number of improvements
     Fitness(BufferedImage Ori) throws IOException
     
 	  {
@@ -33,7 +32,7 @@ public class Fitness
 //************************Handle Fitness internally***********************************************    
     
     // compares the image to the original and calculates the difference in %
-    protected long getFitness(String CompPath) throws IOException
+    protected boolean getFitness(String CompPath) throws IOException
     {
     	// gets the new inage to compare
     	CompImage = ImageIO.read(new File (CompPath));
@@ -90,8 +89,7 @@ public class Fitness
 			//gives the Polygongen the info that its a new optimum
 			better = true;
 			po.setBetter(better);
-			improvements++;
 		}
-		return improvements;
+		return better;
     }	
 }
