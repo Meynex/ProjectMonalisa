@@ -14,7 +14,6 @@ public class Mutation {
 	private int choiceB = 0;					//rng choice of the omponent
 	private int plumi = 0;						//rng choice of +/-
 	private int change = 0;						//rng generate value of change
-	private int var;							//coefficeint of the change range
 	private Random  Rand = new Random();		//generates a new start random 
 	private Polygon poly = new Polygon();		//generates new polygon 
 	private Color col = new Color(0, 0, 0);		//generates new color 
@@ -42,7 +41,7 @@ public class Mutation {
 		choiceA = Rand.nextInt(50);
 		choiceB = Rand.nextInt(3+2*corners)+1;
 		plumi = Rand.nextInt(2)+1;
-		change = Rand.nextInt(10)+1;
+		change = Rand.nextInt(100)+1;
 		System.out.print("Polygon " + (choiceA+1) + "s ");
 	
 
