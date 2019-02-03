@@ -10,14 +10,14 @@ import java.text.DecimalFormat;
 
 public class Fitness  
 {
-	private BufferedImage OriImage;			//the original Image
+	private static BufferedImage OriImage;			//the original Image
 	private BufferedImage CompImage;		//the Image that gets compared
 	private double deltaRed=0;				//the difference in Red between the two versions of a Pixel
 	private double deltaGreen=0;			//the difference in Green between the two versions of a Pixel
 	private double deltaBlue=0;				//the difference in Blue between the two versions of a Pixel
 	private double pixleFitness=0;			//the Fitness coefficient for the individual Pixel
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
-    private double OldFitness = 0;			//the Fitness coefficient for the old best Image
+    private static double OldFitness = 0;			//the Fitness coefficient for the old best Image
     private boolean better = false;			//used to tell if the result is better
   
     Fitness(BufferedImage Ori) throws IOException
@@ -26,7 +26,7 @@ public class Fitness
 		  OriImage = Ori;
 	  }
  //   GUI gu = new GUI();
-    Polygongen po = new Polygongen();
+    Polygongen po = new Polygongen(OriImage.getHeight(), OriImage.getWidth());
     DecimalFormat df = new DecimalFormat("#.000"); 
     
     
@@ -89,7 +89,7 @@ public class Fitness
 			GUI.setFitnessVal(fitness);
 			//gives the Polygongen the info that its a new optimum
 			better = true;
-			po.isBetter();
+//			po.isBetter();
 		}
 		return better;
     }	

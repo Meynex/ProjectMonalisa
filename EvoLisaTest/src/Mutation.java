@@ -3,9 +3,11 @@
 import java.util.Random;
 import java.awt.Polygon;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 
-public class Mutation {
+public class Mutation{
 
 
 	
@@ -22,15 +24,20 @@ public class Mutation {
 	private int Blue = 0;						//color component blue
 	private int[] xpoints;						//polygon component xpoints
 	private int[] ypoints;						//polygon component ypoints
-	private int hight;							//hight of the original image
-	private int width;							//width of the original image
-	Polygongen po = new Polygongen();
+	private static int hight;							//hight of the original image
+	private static int width;							//width of the original image
+	private static BufferedImage Ori;
+	//	Polygongen po = new Polygongen();
 	
-	Mutation(int x, int y)
+	Mutation(int x, int y, BufferedImage O) throws IOException
 	{
 		hight = x;
 		width = y;
+		Ori = O;
 	}
+
+		Fitness f = new Fitness(Ori);
+
 	
 	
 	//method to mutate a polygon
@@ -46,8 +53,8 @@ public class Mutation {
 	
 
 		// gets the polygon Nr <choiceA>
-		poly = po.getPolygon(choiceA);
-		col = po.getColor(choiceA);
+		poly = f.po.getPolygon(choiceA);
+		col = f.po.getColor(choiceA);
 		
 		// splits the color into components
 		Red = col.getRed();
@@ -183,8 +190,8 @@ public class Mutation {
 	  		Color newCol = new Color(Red, Green, Blue, 25);
 	  		
 	  		// gives the data back to the Polygongen class
-	  		po.setPolygon( newPoly, choiceA);
-	  		po.setColor( newCol, choiceA);
+	  		f.po.setPolygon( newPoly, choiceA);
+	  		f.po.setColor( newCol, choiceA);
 		}
 	}	
 }
