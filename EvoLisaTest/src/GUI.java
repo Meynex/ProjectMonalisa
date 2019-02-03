@@ -44,12 +44,13 @@ public class GUI extends JPanel {
 
 	private JFrame frame;
 	private static JTextField textFieldOpen;
+	private static JTextField TextFieldSave;
 	private static Thread t1;
 	private static JLabel lblGenVar;
 	private static JLabel lblimpVar = new JLabel("0");
 	private static JLabel lblFitnessVal = new JLabel("0");
 	
-	private static String BetterPath;
+	private static String BetterFilePath;
 	
 	private static long GenVal =0, ImpVal=0;
 	private static double FitnessVal = 0;
@@ -84,9 +85,13 @@ public class GUI extends JPanel {
 	 */
 	/*
 	 * Defines New Thread 
-	 */
+	 *///TODO
 	private void start() 
 	{
+		if(new File(textFieldOpen.getText()).isFile()) 
+		{
+			if(new File(TextFieldSave.getText()).isDirectory())
+			{
 		t1 = new Thread(){
 			@Override
 			public void run(){
@@ -98,7 +103,10 @@ public class GUI extends JPanel {
 			};
 		};
 		t1.start();
-		
+		}
+			else System.err.println("Error TextFieldSave is not a File");
+		}
+		else System.err.println("Error TextFieldOpen is not a File");
 	}
 	private void stop()
 	{
@@ -174,6 +182,11 @@ public class GUI extends JPanel {
 			setText(lblFitnessVal, "0");
 			setText(lblimpVar, "0");
 			setText(lblGenVar, "0");
+			textFieldOpen.setText("");
+			textFieldOpen.setEditable(true);
+			TextFieldSave.setText("");
+			TextFieldSave.setEditable(true);
+			
 			
 			GenVal =0;
 			ImpVal=0;
@@ -184,7 +197,7 @@ public class GUI extends JPanel {
 
 		});
 		
-		JTextField TextFieldSave = new JTextField();
+		TextFieldSave = new JTextField();
 		
 		
 		JButton btnOpen = new JButton("Open");
@@ -557,8 +570,8 @@ public class GUI extends JPanel {
 			FitnessVal = fitnessVal;
 			setText(lblFitnessVal,Double.toString(FitnessVal));
 		}
-		public static void BetterPath(String Path)
+		public static void BetterFilePath(String Path)
 		{
-			BetterPath = Path;
+			BetterFilePath = Path;
 		}
 }
