@@ -1,11 +1,15 @@
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -22,7 +26,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -34,13 +37,23 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-//import /src/StretchIcon.java;
+import javafx.stage.FileChooser;
+
 
 public class GUI extends JPanel {
 
 	private JFrame frame;
-	private JTextField textFieldOpen;
-
+	private static JTextField textFieldOpen;
+	private static Thread t1;
+	private static JLabel lblGenVar;
+	private static JLabel lblimpVar = new JLabel("0");
+	private static JLabel lblFitnessVal = new JLabel("0");
+	
+	private static long GenVal =0, ImpVal=0;
+	private static double FitnessVal = 0;
+	private static double OldFitness = 0;
+    private static double NewFitness = 0;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -67,11 +80,35 @@ public class GUI extends JPanel {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public void run() {
-		//frame.
+	/*
+	 * Defines New Thread 
+	 */
+	private void start() 
+	{
+		t1 = new Thread(){
+			@Override
+			public void run(){
+			try {
+				Compare(textFieldOpen.getText());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			};
+		};
+		t1.start();
+		
 	}
+	private void stop()
+	{
+		t1.stop();
+	}
+		
+		
 	 
 	private void initialize() {
+				
+	
 		frame = new JFrame();
 		frame.setBounds(100, 100, 828, 553);					// Set the Size of the Window
 		frame.setMinimumSize(new Dimension(828,553));			// Set a fixed MinSize of the Window
@@ -100,32 +137,38 @@ public class GUI extends JPanel {
 		JLayeredPane panel_2 = new JLayeredPane();
 		splitPane.setRightComponent(panel_2);
 		
-		JLabel lblimage1 = new JLabel("Text");
+		JLabel lblimage1 = new JLabel("");
 		lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblimage1.setVerticalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblImage2 = new JLabel("");
-		lblImage2.setIcon(null);
-		lblImage2.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblimage2 = new JLabel("");
+		lblimage2.setIcon(null);
+		lblimage2.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//interupt=false;
 				System.out.println("BtnStart Clicked");
-				run();
+				start();
 				//frame.add(panel_2.add(new paint()));
 				//event start
 			}
 		});
 		
 		JButton btnStop = new JButton("Stop");
-		
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stop();
+			}
+});
+			
 		textFieldOpen = new JTextField();
 		textFieldOpen.setColumns(10);
 		
 		JButton btnPause = new JButton("Pause");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
+		JTextField TextFieldSave = new JTextField();
 		
 		
 		JButton btnOpen = new JButton("Open");
@@ -140,26 +183,45 @@ public class GUI extends JPanel {
 				
 				frame.getContentPane().add(Jl1, BorderLayout.CENTER);
 				//TODO/panel.add(StartImg);*/
-				if(textFieldOpen.getText().isEmpty())System.err.println("\nTextfield is empty.");
+				if(textFieldOpen.getText().isEmpty())System.err.println("\nTextfield Open is empty.");
 				else 
 				{
 					textFieldOpen.setEditable(false);
 					String AbsImg = textFieldOpen.getText();
 					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
-					//lblimage1.setIcon(new ImageIcon(AbsImg));
-					lblimage1.setPreferredSize(panel_1.getPreferredSize());
+					//lblimage1.setPreferredSize(panel_1.getPreferredSize());
 					lblimage1.setIcon(new StretchIcon(AbsImg,true));
-					
+					//lblimage1.setIcon(new ImageIcon(AbsImg));
+					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
 				}
 			}
 
 		});
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String FileAbsPath = FileSaveDialog();
+				if(FileAbsPath==null)System.err.println("\nUser has Abort."); 
+				else TextFieldSave.setText(FileAbsPath);
+				if(TextFieldSave.getText().isEmpty())System.err.println("\nTextfield Save is empty.");
+				else 
+				{
+					TextFieldSave.setEditable(false);
+					String AbsImg = TextFieldSave.getText();
+					//lblimage1.setIcon(Image.ResizeImg(AbsImg,panel_1));
+					//StretchIcon StretchImg1 = new StretchIcon(AbsImg);
+					//lblimage1.setIcon(new ImageIcon(AbsImg));
+					lblimage2.setPreferredSize(panel_2.getPreferredSize());
+					lblimage2.setIcon(new StretchIcon(AbsImg,true));
+					
+				}
+			}
+		});
 		
 		//panel_1.addComponentListener(new ComponentAdapter());
-		
+		/*
 		panel_1.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -171,7 +233,27 @@ public class GUI extends JPanel {
 				//lblimage1.
 			
 			}
-		});
+		});*/
+		//		GRAFISCHE OBERFLÄCHE
+		JLabel lblGenerations = new JLabel("Generations");
+		lblGenerations.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblGenVar = new JLabel("0");
+		lblGenVar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblGenVar.setForeground(Color.BLACK);
+		
+		JLabel lblImprovements = new JLabel("Improvements");
+		lblImprovements.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblimpVar = new JLabel("0");
+		lblimpVar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		JLabel lblFitness = new JLabel("Fitness");
+		lblFitness.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblFitnessVal = new JLabel("0");
+		lblFitnessVal.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
 		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
@@ -188,10 +270,23 @@ public class GUI extends JPanel {
 						.addComponent(btnOpen)
 						.addComponent(btnSave))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(textFieldOpen)
+						.addComponent(TextFieldSave, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldOpen, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(42, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblGenerations)
+						.addComponent(lblImprovements))
+					.addGap(18)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblimpVar)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addComponent(lblGenVar)
+							.addGap(42)
+							.addComponent(lblFitness)
+							.addGap(18)
+							.addComponent(lblFitnessVal)))
+					.addGap(46))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -201,12 +296,18 @@ public class GUI extends JPanel {
 						.addComponent(btnStart)
 						.addComponent(textFieldOpen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnOpen)
-						.addComponent(btnStop))
+						.addComponent(btnStop)
+						.addComponent(lblGenerations)
+						.addComponent(lblGenVar)
+						.addComponent(lblFitness)
+						.addComponent(lblFitnessVal))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnPause)
-						.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSave))
+						.addComponent(TextFieldSave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSave)
+						.addComponent(lblImprovements)
+						.addComponent(lblimpVar))
 					.addGap(30))
 		);
 		panel_2.setLayout(gl_panel_2);
@@ -225,10 +326,13 @@ public class GUI extends JPanel {
 		flowLayout.setHgap(200);
 		splitPane_1.setRightComponent(panel_3);
 		
+		panel_1.setLayout(new BorderLayout(0, 0)); // BorderLayout to fix the Fullfill 
 		panel_1.add(lblimage1);
-		panel_3.add(lblImage2);
-		//splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
-		//splitPane_1.setEnabled(false);	// ****************************//
+		panel_3.setLayout(new BorderLayout(0, 0));
+		panel_3.add(lblimage2);
+		
+		splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
+		splitPane_1.setEnabled(false);	// ****************************//
 		
 		
 		frame.getContentPane().setLayout(groupLayout);
@@ -241,19 +345,31 @@ public class GUI extends JPanel {
 	      g2d.fillRect(50 * i, 20, 50, 50);
 	    }
 	  }
+	/* Generate an Dialog Frame to return the location of the save_folder Path 
+	 * 
+	 * 
+	 * @see  java.swing.Jframe
+	 */
 	public static String FileSaveDialog()
     {
 		//TODO////
 		/////////
+		//SaveFilePath
 		JFileChooser input = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        //FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        
+        //FileFilter filter = new FileNameExtensionFilter(name, null);
        
-        input.setFileFilter(filter);
-        input.setAcceptAllFileFilterUsed(false);
+        //input.setCurrentDirectory();
+        //input.setFileFilter(filter);
+        //input.setAcceptAllFileFilterUsed(false);
+        input.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result1 = input.showOpenDialog(input);
         if (result1 == JFileChooser.APPROVE_OPTION) {
         	System.out.println("Apply was Selected");
-            return input.getSelectedFile().getAbsolutePath();
+        	  
+        	return input.getSelectedFile().getPath();
+            //return input.getCurrentDirectory().getAbsolutePath();
         } else if (result1 == JFileChooser.CANCEL_OPTION) {
             System.out.println("Cancel was selected");
             return null;
@@ -282,8 +398,10 @@ public class GUI extends JPanel {
         // Wir lassen unseren Frame anzeigen
         meinJFrame.setVisible(true);*/
         //chooser.		
+		
         JFileChooser input = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg"); 
+        input.setCurrentDirectory(new File("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src"));
         input.setFileFilter(filter);
         input.setAcceptAllFileFilterUsed(false);
         int result1 = input.showOpenDialog(input);
@@ -299,107 +417,105 @@ public class GUI extends JPanel {
         	return null;
         }
     }
-    public static class Image{
+        public static void Compare(String PathOri) throws IOException 
+  	  {
+  		  
+  		
+  		  //loads the images => should go to external class for final product
+//  	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
+  		  //BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
+  		  BufferedImage OriImage = ImageIO.read(new File (PathOri));
+  		  	  
+  	  
+  	      // maybe add to Fitness class?
+  	      
+  	      //initialises the new and old fitness for comparison
+  	      //double OldFitness = 0;
+  	      //double NewFitness = 0;
+  	      
+  	      // gets the starting fitness
+  	      Fitness f = new Fitness(OriImage);
+  	      
+  	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
+  	      NewFitness = f.getFitness();
+  	      OldFitness = NewFitness;
+  	      System.out.println(NewFitness);
 
-        
-		public Image() {
-				// TODO Auto-generated constructor stub
-        	String AbsPath = null;
-        	String Name = "";
-        	
-			}
-
-		public BufferedImage getBufImg(String AbsPath){
-        try
-        {
-            BufferedImage picture = ImageIO.read(new File(AbsPath));
-        
-            return picture;
-        }
-        catch (IOException e)
-        {
-            String workingDir = System.getProperty("user.dir");
-            System.out.println("Current working directory : " + workingDir);
-            e.printStackTrace();
-        }
-        return null;
-        }
-		
-		public static void DisplayImage(String AbsPath) throws IOException
-	    {
-	        BufferedImage img=ImageIO.read(new File(AbsPath));
-	        ImageIcon icon=new ImageIcon(img);
-	        JFrame frame=new JFrame();
-	        frame.getContentPane().setLayout(new FlowLayout());
-	        frame.setSize(200,300);
-	        JLabel lbl=new JLabel();
-	        lbl.setIcon(icon);
-	        frame.getContentPane().add(lbl);
-	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    }
-		public static void DisplayImage(String AbsPath, JLabel lbl) throws IOException
-	    {
-	        BufferedImage img=ImageIO.read(new File(AbsPath));
-	        ImageIcon icon=new ImageIcon(img);
-	        lbl.setIcon(icon);
-	    }
-		
-		public static void ResizeAbs(String inputImagePath,
-	            String outputImagePath, int scaledWidth, int scaledHeight)
-	            throws IOException {
-	        // reads input image
-	        File inputFile = new File(inputImagePath);
-	        BufferedImage inputImage = ImageIO.read(inputFile);
-	 
-	        // creates output image
-	        BufferedImage outputImage = new BufferedImage(scaledWidth,
-	                scaledHeight, inputImage.getType());
-	 
-	        // scales the input image to the output image
-	        Graphics2D g2d = outputImage.createGraphics();
-	        g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
-	        g2d.dispose();
-	 
-	        // extracts extension of output file
-	        String formatName = outputImagePath.substring(outputImagePath
-	                .lastIndexOf(".") + 1);
-	 
-	        // writes to output file
-	        ImageIO.write(outputImage, formatName, new File(outputImagePath));
-	    }
-	 
-	    /**
-	     * Resizes an image by a percentage of original size (proportional).
-	     * @param inputImagePath Path of the original image
-	     * @param outputImagePath Path to save the resized image
-	     * @param percent a double number specifies percentage of the output image
-	     * over the input image.
-	     * @throws IOException
-	     */
-	    public static void ResizePer(String inputImagePath,
-	            String outputImagePath, double percent) throws IOException {
-	        File inputFile = new File(inputImagePath);
-	        BufferedImage inputImage = ImageIO.read(inputFile);
-	        int scaledWidth = (int) (inputImage.getWidth() * percent);
-	        int scaledHeight = (int) (inputImage.getHeight() * percent);
-	        ResizeAbs(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
-	    }
-	    public static ImageIcon ResizeImg(String AbsPath, JPanel pan) {
-	    	
-	    	BufferedImage img = null;
-	    	try {
-	    	    img = ImageIO.read(new File(AbsPath));
-	    	} catch (IOException e) {
-	    	    e.printStackTrace();
-	    	}
-	    	
-	    	java.awt.Image dimg = img.getScaledInstance(pan.getWidth(), pan.getHeight(),
-	    	        java.awt.Image.SCALE_SMOOTH);
-	    	
-	    	ImageIcon imageIcon = new ImageIcon(dimg);
-	    	return imageIcon;
-	    }
+  	      Mutation M = new Mutation();
+  	      // gets the fitness for the new image => will be looped in the final version
+  	      do{
+  	      
+  	    
+  	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
+  	      NewFitness = f.getFitness();
+  	      
+  	      System.out.println(NewFitness);
+  	      
+  	      // checks if the new fitness is better than the old and if so replaces it.
+  	      if(NewFitness < OldFitness)
+  	      {
+  	    	  System.out.println("improvement.");
+  	    	  ImpVal++;
+  	    	  setText(lblimpVar,Long.toString(ImpVal));
+  	    	  OldFitness = NewFitness;
+  	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
+  	      }
+  	      
+  	    
+  	      M.Mutate();
+  	     // do {
+  	      
+  	      try {
+  	    	GenVal++;
+    	    System.out.println(new String (Long.toString(GenVal)));
+    	    setText(lblGenVar,new String(Long.toString(GenVal)));
+    	    //lblGenVar = new JLabel(Long.toString(GenVal));
+    	    //lblGenVar.repaint();
+    	    //Long.to
+    	    //lblGenVar.updateUI();
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+  	      }while(true);
+  	      
+  	    
     }
-   
+        /**
+         * Sets a <CODE>JLabel.text</CODE> from the specified text with the specified behavior.
+         * 
+         * @param text Defines the single line of text this component will display. If the value of text is null or empty string, nothing is displayed. 
+         * @param label Defines the Label of this component will display.
+         *
+         * The default value of this property is null. 
+         * This is a JavaBeans bound property.
+         * 
+         * @see javax.swing.JLabel.setText(String text)
+         *
+         */
+        private static void setText(final JLabel label, final String text){
+            label.setText(text);
+            label.paintImmediately(label.getVisibleRect());
+         }
+        
+        /**
+         * get a <CODE>Double</CODE> from the specified Fitness with the specified behavior.
+         * 
+         */
+        public static double getFitnessVal() {
+			return FitnessVal;
+		}
+		/**
+         * Sets a <CODE>Double</CODE> from the specified Fitness with the specified behavior.
+         * 
+         * @param fitnessVal a Double specifying a fitness value and print it to the Label.
+         * 
+         *
+         * @see javax.swing.Jlabel.setText()
+         */
+		public static void setFitnessVal(double fitnessVal) {
+			FitnessVal = fitnessVal;
+			setText(lblFitnessVal,Double.toString(FitnessVal));
+		}
 }

@@ -177,7 +177,7 @@ public class GUI extends JPanel {
 		panel_2.setLayout(gl_panel_2);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
-		splitPane_1.setResizeWeight(0.0);
+		splitPane_1.setResizeWeight(.5d);
 		splitPane.setLeftComponent(splitPane_1);
 		
 		JPanel panel_1 = new JPanel();
@@ -335,7 +335,7 @@ public class GUI extends JPanel {
 	        BufferedImage inputImage = ImageIO.read(inputFile);
 	        int scaledWidth = (int) (inputImage.getWidth() * percent);
 	        int scaledHeight = (int) (inputImage.getHeight() * percent);
-	        resize(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
+	        ResizeAbs(inputImagePath, outputImagePath, scaledWidth, scaledHeight);
 	    }
     }
     
