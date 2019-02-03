@@ -19,7 +19,7 @@ public class Fitness
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
     private boolean better = false;			//used to tell if the result is better
-    private int improvements = 0;			// counts the number of improvements
+    private long improvements = 0;			// counts the number of improvements
     Fitness(BufferedImage Ori) throws IOException
     
 	  {
@@ -33,7 +33,7 @@ public class Fitness
 //************************Handle Fitness internally***********************************************    
     
     // compares the image to the original and calculates the difference in %
-    protected void getFitness(String CompPath) throws IOException
+    protected long getFitness(String CompPath) throws IOException
     {
     	// gets the new inage to compare
     	CompImage = ImageIO.read(new File (CompPath));
@@ -91,7 +91,7 @@ public class Fitness
 			better = true;
 			po.setBetter(better);
 			improvements++;
-			GUI.setImprovements(improvements);
 		}
+		return improvements;
     }	
 }
