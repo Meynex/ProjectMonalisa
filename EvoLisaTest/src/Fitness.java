@@ -19,6 +19,7 @@ public class Fitness
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
     private boolean better = false;			//used to tell if the result is better
+  
     Fitness(BufferedImage Ori) throws IOException
     
 	  {
@@ -88,7 +89,7 @@ public class Fitness
 			GUI.setFitnessVal(fitness);
 			//gives the Polygongen the info that its a new optimum
 			better = true;
-			po.setBetter(better);
+			po.isBetter();
 		}
 		return better;
     }	
