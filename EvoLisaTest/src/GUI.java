@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -38,18 +39,18 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.stage.FileChooser;
 
-//import /src/StretchIcon.java;
 
 public class GUI extends JPanel {
 
 	private JFrame frame;
 	private static JTextField textFieldOpen;
 	private static Thread t1;
-	private static JLabel lblGenVar = new JLabel("0");
+	private static JLabel lblGenVar;
 	private static JLabel lblimpVar = new JLabel("0");
 	private static JLabel lblFitnessVal = new JLabel("0");
 	
-	private static int GenVal =0, ImpVal=0;
+	private static long GenVal =0, ImpVal=0;
+	private static double FitnessVal = 0;
 	private static double OldFitness = 0;
     private static double NewFitness = 0;
 	
@@ -78,6 +79,9 @@ public class GUI extends JPanel {
 	
 	/**
 	 * Initialize the contents of the frame.
+	 */
+	/*
+	 * Defines New Thread 
 	 */
 	private void start() 
 	{
@@ -234,78 +238,23 @@ public class GUI extends JPanel {
 		JLabel lblGenerations = new JLabel("Generations");
 		lblGenerations.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JLabel lblGenVar = new JLabel("0");
+		lblGenVar = new JLabel("0");
 		lblGenVar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblGenVar.setForeground(Color.BLACK);
 		
 		JLabel lblImprovements = new JLabel("Improvements");
 		lblImprovements.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JLabel lblimpVar = new JLabel("0");
+		lblimpVar = new JLabel("0");
 		lblimpVar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JLabel lblFitness = new JLabel("Fitness");
 		lblFitness.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JLabel lblFitnessVal = new JLabel("0");
+		lblFitnessVal = new JLabel("0");
 		lblFitnessVal.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-		/*GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(21)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnPause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnStop, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-					.addGap(45)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnOpen)
-						.addComponent(btnSave))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(textFieldOpen)
-						.addComponent(TextFieldSave, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblGenerations)
-						.addComponent(lblImprovements))
-					.addGap(18)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblimpVar)
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addComponent(lblGenVar)
-							.addGap(42)
-							.addComponent(lblFitness)
-							.addGap(18)
-							.addComponent(lblFitnessVal)))
-					.addGap(46))
-		);
-		gl_panel_2.setVerticalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addContainerGap(23, Short.MAX_VALUE)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnStart)
-						.addComponent(textFieldOpen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnOpen)
-						.addComponent(btnStop)
-						.addComponent(lblGenerations)
-						.addComponent(lblGenVar)
-						.addComponent(lblFitness)
-						.addComponent(lblFitnessVal))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnPause)
-						.addComponent(TextFieldSave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSave)
-						.addComponent(lblImprovements)
-						.addComponent(lblimpVar))
-					.addGap(30))
-		);
-		panel_2.setLayout(gl_panel_2);*/
+		
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
@@ -396,6 +345,11 @@ public class GUI extends JPanel {
 	      g2d.fillRect(50 * i, 20, 50, 50);
 	    }
 	  }
+	/* Generate an Dialog Frame to return the location of the save_folder Path 
+	 * 
+	 * 
+	 * @see  java.swing.Jframe
+	 */
 	public static String FileSaveDialog()
     {
 		//TODO////
@@ -502,18 +456,66 @@ public class GUI extends JPanel {
   	      {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;
-  	    	  lblimpVar.setText(Integer.toString(ImpVal));
+  	    	  setText(lblimpVar,Long.toString(ImpVal));
   	    	  OldFitness = NewFitness;
   	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
   	      }
   	      
   	    
   	      M.Mutate();
-  	      GenVal++;
-  	      lblGenVar.setText(Integer.toString(GenVal));
-  	      lblGenVar.updateUI();
+  	     // do {
+  	      
+  	      try {
+  	    	GenVal++;
+    	    System.out.println(new String (Long.toString(GenVal)));
+    	    setText(lblGenVar,new String(Long.toString(GenVal)));
+    	    //lblGenVar = new JLabel(Long.toString(GenVal));
+    	    //lblGenVar.repaint();
+    	    //Long.to
+    	    //lblGenVar.updateUI();
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
   	      }while(true);
   	      
   	    
     }
+        /**
+         * Sets a <CODE>JLabel.text</CODE> from the specified text with the specified behavior.
+         * 
+         * @param text Defines the single line of text this component will display. If the value of text is null or empty string, nothing is displayed. 
+         * @param label Defines the Label of this component will display.
+         *
+         * The default value of this property is null. 
+         * This is a JavaBeans bound property.
+         * 
+         * @see javax.swing.JLabel.setText(String text)
+         *
+         */
+        private static void setText(final JLabel label, final String text){
+            label.setText(text);
+            label.paintImmediately(label.getVisibleRect());
+         }
+        
+        /**
+         * get a <CODE>Double</CODE> from the specified Fitness with the specified behavior.
+         * 
+         */
+        public static double getFitnessVal() {
+			return FitnessVal;
+		}
+		/**
+         * Sets a <CODE>Double</CODE> from the specified Fitness with the specified behavior.
+         * 
+         * @param fitnessVal a Double specifying a fitness value and print it to the Label.
+         * 
+         *
+         * @see javax.swing.Jlabel.setText()
+         */
+		public static void setFitnessVal(double fitnessVal) {
+			FitnessVal = fitnessVal;
+			setText(lblFitnessVal,Double.toString(FitnessVal));
+		}
 }
