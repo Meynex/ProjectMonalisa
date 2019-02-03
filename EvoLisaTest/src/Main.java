@@ -1,6 +1,7 @@
 
+import java.awt.image.BufferedImage;
 import java.io.*;
-
+import javax.imageio.ImageIO;
 
 
 public class Main 
@@ -8,13 +9,16 @@ public class Main
 
 	  public static void main(String[] args) throws IOException 
 	  {
-		  
+		  BufferedImage OriImage;
 		  String PathOri = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeOri.png";
 		  String Path;
+		  
+		  //opens the original Image
+		  OriImage = ImageIO.read(new File (PathOri));	
   
 	      // Initializes fitness and Mutation objects and gives the original image to fitness
-	      Fitness f = new Fitness(PathOri);
-	      Mutation M = new Mutation();      
+	      Fitness f = new Fitness(OriImage);
+	      Mutation M = new Mutation(OriImage.getHeight(), OriImage.getWidth());      
 
 	      // start of the do-while Loop
 	      // checks the image its given on its fitness and afterwards mutates the next version

@@ -1,4 +1,5 @@
 
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -14,9 +15,9 @@ public class Fitness
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
     
-    Fitness(String Ori) throws IOException
+    Fitness(BufferedImage Ori) throws IOException
 	  {
-		  OriImage = ImageIO.read(new File (Ori));	//opens the original Image
+		  OriImage = Ori;
 	  }
 
     
