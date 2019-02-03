@@ -22,7 +22,7 @@ public class Fitness
 	  {
 		  OriImage = Ori;
 	  }
-    GUI gu = new GUI();
+ //   GUI gu = new GUI();
     Polygongen po = new Polygongen();
     DecimalFormat df = new DecimalFormat("#.000"); 
     
@@ -83,7 +83,7 @@ public class Fitness
 			// sets the new optimum
 			OldFitness = fitness;
 			//gives the fitness value to the GUI
-			gu.setFitnessVal(fitness);
+			GUI.setFitnessVal(fitness);
 			//gives the Polygongen the info that its a new optimum
 			better = true;
 			po.setBetter(better);
