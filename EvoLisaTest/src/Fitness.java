@@ -3,6 +3,9 @@
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.text.DecimalFormat;
+
+
 
 public class Fitness  
 {
@@ -14,12 +17,15 @@ public class Fitness
 	private double pixleFitness=0;			//the Fitness coefficient for the individual Pixel
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
-    
+    private boolean better = false;
     Fitness(BufferedImage Ori) throws IOException
 	  {
 		  OriImage = Ori;
 	  }
-
+    GUI gu = new GUI();
+    Polygongen po = new Polygongen();
+    DecimalFormat df = new DecimalFormat("#.000"); 
+    
     
 //************************Handle Fitness internally***********************************************    
     
@@ -31,6 +37,7 @@ public class Fitness
     	// restets the variables
     	pixleFitness =0;
     	fitness = 0;
+    	better = false; 
     	
     	//goes through each pixle
     	for(int x=0; x<OriImage.getWidth(); x++)
@@ -69,16 +76,17 @@ public class Fitness
 		fitness = 100 * (1 - fitness / (OriImage.getWidth()*OriImage.getHeight()*3*255)); 
 		
 		
-//		TODO/ diese gesammte Sektion muss infos an eure beiden sachen geben		
-//		die Fitness ausgabe ab Jans lable
-//		die Improvement output an chris damit er das aktuelle bild behält
-		System.out.printf("%.3f", fitness);
-		System.out.println(" %");
-		
+
+		// checks if the result is better then the old optimum
 		if(fitness > OldFitness)
 		{
-			System.out.println("improvement.");
+			// sets the new optimum
 			OldFitness = fitness;
+			//gives the fitness value to the GUI
+			gu.setFitness(fitness);
+			//gives the Polygongen the info that its a new optimum
+			better = true;
+			po.setBetter(better);
 		}
     }	
 }

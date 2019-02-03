@@ -25,7 +25,7 @@ public class Mutation {
 	private int[] ypoints;						//polygon component ypoints
 	private int hight;							//hight of the original image
 	private int width;							//width of the original image
-	
+	Polygongen po = new Polygongen();
 	
 	Mutation(int x, int y)
 	{
@@ -35,7 +35,7 @@ public class Mutation {
 	
 	
 	//method to mutate a polygon
-	protected void Mutate()
+	public void Mutate()
 	{
 	
 		
@@ -47,8 +47,8 @@ public class Mutation {
 	
 
 		// gets the polygon Nr <choiceA>
-		poly = Polygongen.getPolygon(choiceA);
-		col = Polygongen.getColor(choiceA);
+		poly = po.getPolygon(choiceA);
+		col = po.getColor(choiceA);
 		
 		// splits the color into components
 		Red = col.getRed();
@@ -181,11 +181,11 @@ public class Mutation {
 	  		
 	  		// since neither polygon nor color can change their components we generate new ones.
 	  		Polygon newPoly = new Polygon(xpoints, ypoints, 5);
-	  		Color newCol = new Color(Red, Green, Blue);
+	  		Color newCol = new Color(Red, Green, Blue, 25);
 	  		
 	  		// gives the data back to the Polygongen class
-	  		Polygongen.setPolygon(choiceA, newPoly);
-	  		Polygongen.setColor(choiceA, newCol);
+	  		po.setPolygon( newPoly, choiceA);
+	  		po.setColor( newCol, choiceA);
 		}
 	}	
 }
