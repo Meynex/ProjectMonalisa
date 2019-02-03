@@ -83,7 +83,7 @@ public class Fitness
 			// sets the new optimum
 			OldFitness = fitness;
 			//gives the fitness value to the GUI
-			gu.setFitness(fitness);
+			gu.setFitnessVal(fitness);
 			//gives the Polygongen the info that its a new optimum
 			better = true;
 			po.setBetter(better);

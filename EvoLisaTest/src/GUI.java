@@ -421,7 +421,7 @@ public class GUI extends JPanel {
   	  {
   		  
   		
-  		  //loads the images => should go to external class for final product
+  		  /*//loads the images => should go to external class for final product
 //  	      BufferedImage OriImage = ImageIO.read(Main.class.getResource("CompanionCubeOri.png"));
   		  //BufferedImage OriImage = ImageIO.read(new File ("C:\\Users\\Robin\\git\\Meynex\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeOri.png"));
   		  BufferedImage OriImage = ImageIO.read(new File (PathOri));
@@ -442,13 +442,35 @@ public class GUI extends JPanel {
   	      System.out.println(NewFitness);
 
   	      Mutation M = new Mutation();
-  	      // gets the fitness for the new image => will be looped in the final version
+  	      // gets the fitness for the new image => will be looped in the final version*/
+        BufferedImage OriImage;
+  		  
+  		  String Path;
+  		  
+  		  //opens the original Image
+  		  OriImage = ImageIO.read(new File (PathOri));	
+    
+  	      // Initializes fitness and Mutation objects and gives the original image to fitness
+  	      Fitness f = new Fitness(OriImage);
+  	      Mutation M = new Mutation(OriImage.getHeight(), OriImage.getWidth());      
+  	      /*
+  	      // start of the do-while Loop
+  	      // checks the image its given on its fitness and afterwards mutates the next version
+  	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp.png";
+  	      f.getFitness(Path);
+  	      M.Mutate();
+
+  	      // end of the do-while loop
+  	      
+  	      // for testing only. usually handled by do-while loop
+  	      // checks the image its given on its fitness and afterwards mutates the next version
+  	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
+  	      f.getFitness(Path);
+  	      */
   	      do{
   	      
   	    
-  	      f.setImage("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
-  	      NewFitness = f.getFitness();
-  	      
+  	      NewFitness = f.getFitness("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
   	      System.out.println(NewFitness);
   	      
   	      // checks if the new fitness is better than the old and if so replaces it.
@@ -457,12 +479,14 @@ public class GUI extends JPanel {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;
   	    	  setText(lblimpVar,Long.toString(ImpVal));
+  	    	  
   	    	  OldFitness = NewFitness;
   	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
   	      }
   	      
   	    
   	      M.Mutate();
+        	
   	     // do {
   	      
   	      try {
