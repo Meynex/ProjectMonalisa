@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 public class Polygongen
 {
+	private static boolean isBetter = false;
+	private static String Path ="C:\\"; // Need Directionary Path
 	private Polygon polylist[] = new Polygon[50];
 	private Color farbe[] = new Color[50];
 	private static int Counter = 0;
@@ -38,7 +40,7 @@ public class Polygongen
 	{
 		farbe[i]=c;
 	}
-	public static void imageSave(BufferedImage Img, String Path)
+	public static void imageSave(BufferedImage Img)
 	{
 		try {
 		    // retrieve image
@@ -46,5 +48,26 @@ public class Polygongen
 		    ImageIO.write(Img, "PNG", outputfile);
 		    Counter++;
 		} catch (IOException e) {}
+	}
+	public static void setBetter(boolean isBetter)
+	{
+		Polygongen.isBetter = isBetter;
+	}
+	public static boolean getBetter()
+	{
+		if(isBetter)
+		{
+			isBetter=false;
+			return true;
+		}else
+			return isBetter;
+	}
+	public static void setPath(String Path)
+	{
+		Polygongen.Path = Path;
+	}
+	public static String getPath()
+	{
+		return Path;
 	}
 }

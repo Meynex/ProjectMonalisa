@@ -49,6 +49,8 @@ public class GUI extends JPanel {
 	private static JLabel lblimpVar = new JLabel("0");
 	private static JLabel lblFitnessVal = new JLabel("0");
 	
+	private static String BetterPath;
+	
 	private static long GenVal =0, ImpVal=0;
 	private static double FitnessVal = 0;
 	private static double OldFitness = 0;
@@ -91,7 +93,6 @@ public class GUI extends JPanel {
 			try {
 				Compare(textFieldOpen.getText());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			};
@@ -166,7 +167,22 @@ public class GUI extends JPanel {
 		textFieldOpen = new JTextField();
 		textFieldOpen.setColumns(10);
 		
-		JButton btnPause = new JButton("Pause");
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			setText(lblFitnessVal, "0");
+			setText(lblimpVar, "0");
+			setText(lblGenVar, "0");
+			
+			GenVal =0;
+			ImpVal=0;
+			FitnessVal = 0;
+			OldFitness = 0;
+		    NewFitness = 0;
+			}
+
+		});
 		
 		JTextField TextFieldSave = new JTextField();
 		
@@ -261,7 +277,7 @@ public class GUI extends JPanel {
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addGap(21)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnPause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnReset, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnStop, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
@@ -303,7 +319,7 @@ public class GUI extends JPanel {
 						.addComponent(lblFitnessVal))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnPause)
+						.addComponent(btnReset)
 						.addComponent(TextFieldSave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSave)
 						.addComponent(lblImprovements)
@@ -470,17 +486,16 @@ public class GUI extends JPanel {
   	      do{
   	      
   	    
-  	      NewFitness = f.getFitness("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp.png");
+  	     // NewFitness = f.getFitness("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
   	      System.out.println(NewFitness);
   	      
   	      // checks if the new fitness is better than the old and if so replaces it.
-  	      if(NewFitness < OldFitness)
+  	      //f.getFitness(BetterPath)
+  	      if(true)
   	      {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;
   	    	  setText(lblimpVar,Long.toString(ImpVal));
-  	    	  
-  	    	  OldFitness = NewFitness;
   	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
   	      }
   	      
@@ -541,5 +556,9 @@ public class GUI extends JPanel {
 		public static void setFitnessVal(double fitnessVal) {
 			FitnessVal = fitnessVal;
 			setText(lblFitnessVal,Double.toString(FitnessVal));
+		}
+		public static void BetterPath(String Path)
+		{
+			BetterPath = Path;
 		}
 }
