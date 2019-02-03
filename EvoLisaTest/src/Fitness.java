@@ -17,7 +17,8 @@ public class Fitness
 	private double pixleFitness=0;			//the Fitness coefficient for the individual Pixel
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
-    private boolean better = false;
+    private boolean better = false;			//used to tell if the result is better
+    private int improvements = 0;			// counts the number of improvements
     Fitness(BufferedImage Ori) throws IOException
 	  {
 		  OriImage = Ori;
@@ -87,6 +88,8 @@ public class Fitness
 			//gives the Polygongen the info that its a new optimum
 			better = true;
 			po.setBetter(better);
+			improvements++;
+			GUI.setImprovements(improvements);
 		}
     }	
 }
