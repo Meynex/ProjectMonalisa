@@ -1,4 +1,5 @@
 
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -16,15 +17,10 @@ public class Fitness
 	private double pixleFitness=0;			//the Fitness coefficient for the individual Pixel
 	private double fitness = 0;		  		//the Fitness coefficient for the current Image
     private double OldFitness = 0;			//the Fitness coefficient for the old best Image
-<<<<<<< master
     private boolean better = false;
     Fitness(BufferedImage Ori) throws IOException
-=======
-    
-    Fitness(String Ori) throws IOException
->>>>>>> 7941a26 since it didnt work from my lapi here are the new files...
 	  {
-		  OriImage = ImageIO.read(new File (Ori));	//opens the original Image
+		  OriImage = Ori;
 	  }
     GUI gu = new GUI();
     Polygongen po = new Polygongen();
