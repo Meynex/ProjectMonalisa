@@ -44,7 +44,6 @@ public class Mutation{
 	public void Mutate()
 	{
 	
-		
 		choiceA = Rand.nextInt(50);
 		choiceB = Rand.nextInt(3+2*corners)+1;
 		plumi = Rand.nextInt(2)+1;

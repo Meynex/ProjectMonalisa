@@ -6,8 +6,6 @@ import javax.imageio.ImageIO;
 import java.text.DecimalFormat;
 
 
-
-
 public class Fitness  
 {
 	private static BufferedImage OriImage;			//the original Image
