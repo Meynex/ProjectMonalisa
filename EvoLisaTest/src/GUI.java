@@ -474,7 +474,7 @@ public class GUI extends JPanel {
   	      // gets the fitness for the new image => will be looped in the final version*/
         BufferedImage OriImage;
   		  
-  		  String Path;
+  		  
   		  
   		  //opens the original Image
   		  OriImage = ImageIO.read(new File (PathOri));	
@@ -496,6 +496,10 @@ public class GUI extends JPanel {
   	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
   	      f.getFitness(Path);
   	      */
+  	      f.po.setPath(TextFieldSave.getText());
+  	      
+  	      
+  	      
   	      do{
   	      
   	    
