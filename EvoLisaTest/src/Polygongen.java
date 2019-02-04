@@ -8,8 +8,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import Poly.Polygongen;
 public class Polygongen
 {
+	private final int PolyNum = 50;
 	private static File isBetterFile;
 	private static String Path ="C:\\";
 	private static BufferedImage pic;
@@ -23,11 +26,14 @@ public class Polygongen
         
         pic = new BufferedImage(ObjMax.height, ObjMax.width, BufferedImage.TYPE_INT_RGB);;
     	Graphics2D image = pic.createGraphics();
-        
-    	for(int i=0;i<50;i++)
+    	for(int i=0;i<PolyNum;i++)
         {
         this.setPolygon(new Polygon(xPoly,yPoly,5), i);
         this.setColor(Color.GRAY, i);
+        image.setColor(this.getColor(i));
+        image.fillPolygon(this.getPolygon(i));
+    	//pic.createGraphics(image);
+        Polygongen.imageSave(pic);
         }
         
 	}
@@ -47,7 +53,7 @@ public class Polygongen
 	{
 		farbe[i]=c;
 	}
-	public void imageSave(BufferedImage Img)
+	public static void imageSave(BufferedImage Img)
 	{
 		try {
 		    // retrieve image

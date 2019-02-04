@@ -480,8 +480,9 @@ public class GUI extends JPanel {
   		  OriImage = ImageIO.read(new File (PathOri));	
     
   	      // Initializes fitness and Mutation objects and gives the original image to fitness
-  	      Fitness f = new Fitness(OriImage);
-  	      Mutation M = new Mutation(OriImage.getHeight(), OriImage.getWidth());      
+  	      //Fitness f = new Fitness(OriImage);
+  	      Mutation M = new Mutation(OriImage);
+  	      
   	      /*
   	      // start of the do-while Loop
   	      // checks the image its given on its fitness and afterwards mutates the next version
@@ -496,7 +497,9 @@ public class GUI extends JPanel {
   	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
   	      f.getFitness(Path);
   	      */
-  	      f.po.setPath(TextFieldSave.getText());
+  	      //f.po.setPath(TextFieldSave.getText());
+  	      
+  	      M.f.po.setPath(TextFieldSave.getText());
   	      
   	      
   	      
@@ -508,7 +511,9 @@ public class GUI extends JPanel {
   	      
   	      // checks if the new fitness is better than the old and if so replaces it.
   	      //f.getFitness(BetterPath)
-  	      if(true)
+  	      
+  	      //M.f.po.ge
+  	      //if(M.f.getFitness(CompPath))
   	      {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;

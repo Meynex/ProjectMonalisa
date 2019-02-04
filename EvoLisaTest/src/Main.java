@@ -18,13 +18,13 @@ public class Main
   
 	      // Initializes fitness and Mutation objects and gives the original image to fitness
 	      Fitness f = new Fitness(OriImage);
-	      Mutation M = new Mutation(OriImage.getHeight(), OriImage.getWidth());      
+	      //Mutation M = new Mutation(OriImage.getHeight(), OriImage.getWidth());      
 
 	      // start of the do-while Loop
 	      // checks the image its given on its fitness and afterwards mutates the next version
 	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp.png";
 	      f.getFitness(Path);
-	      M.Mutate();
+	      //M.Mutate();
 
 	      // end of the do-while loop
 	      
@@ -32,7 +32,7 @@ public class Main
 	      // checks the image its given on its fitness and afterwards mutates the next version
 	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
 	      f.getFitness(Path);
-	      M.Mutate();
+	      //M.Mutate();
 	  }	  
 }
 
