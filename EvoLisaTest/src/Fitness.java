@@ -31,10 +31,10 @@ public class Fitness
 //************************Handle Fitness internally***********************************************    
     
     // compares the image to the original and calculates the difference in %
-    protected boolean getFitness(String CompPath) throws IOException
+    protected boolean getFitness(BufferedImage Comp) throws IOException
     {
     	// gets the new inage to compare
-    	CompImage = ImageIO.read(new File (CompPath));
+    	CompImage = Comp;//ImageIO.read(new File (CompPath));
     	// restets the variables
     	pixleFitness =0;
     	fitness = 0;
