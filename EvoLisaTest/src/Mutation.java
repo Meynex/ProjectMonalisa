@@ -27,16 +27,14 @@ public class Mutation{
 	private static int hight;							//hight of the original image
 	private static int width;							//width of the original image
 	private static BufferedImage Ori;
-	//	Polygongen po = new Polygongen();
 	
-	Mutation(int x, int y, BufferedImage O) throws IOException
+	Mutation(BufferedImage O) throws IOException
 	{
-		hight = x;
-		width = y;
 		Ori = O;
 	}
 
 		Fitness f = new Fitness(Ori);
+		
 
 	
 	
@@ -48,6 +46,9 @@ public class Mutation{
 		choiceB = Rand.nextInt(3+2*corners)+1;
 		plumi = Rand.nextInt(2)+1;
 		change = Rand.nextInt(100)+1;
+		hight =Ori.getHeight();
+		width = Ori.getTileWidth();
+		
 		System.out.print("Polygon " + (choiceA+1) + "s ");
 	
 
