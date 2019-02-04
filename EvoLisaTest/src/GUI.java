@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -17,7 +18,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.text.DecimalFormat;
+import java.util.Random;
 
 import javax.swing.Icon;
 import javax.imageio.ImageIO;
@@ -37,7 +39,6 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import javafx.stage.FileChooser;
 
 
 public class GUI extends JPanel {
@@ -49,6 +50,7 @@ public class GUI extends JPanel {
 	private static JLabel lblGenVar;
 	private static JLabel lblimpVar = new JLabel("0");
 	private static JLabel lblFitnessVal = new JLabel("0");
+	private static JLabel lblimage2;
 	
 	private static String BetterFilePath;
 	
@@ -150,7 +152,7 @@ public class GUI extends JPanel {
 		lblimage1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblimage1.setVerticalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblimage2 = new JLabel("");
+		lblimage2 = new JLabel("");
 		lblimage2.setIcon(null);
 		lblimage2.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -500,33 +502,53 @@ public class GUI extends JPanel {
   	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
   	      f.getFitness(Path);
   	      */
+  	      //TODO
   	      //f.po.setPath(TextFieldSave.getText());
   	      
-  	      M.f.po.setPath(TextFieldSave.getText());
-  	      
-  	      
-  	      
-  	      do{
-  	      
+  	      //M.f.po.setPath(TextFieldSave.getText());
+  	       Polygongen po = new Polygongen(500,500);
+  	      int z = 0;
+  	      Polygon polynew = new Polygon();
   	    
+  	      int max = 500;
+  	    int min = 0;
+  	    Random rand = null;
+  	       po.setDirPath(TextFieldSave.getText());
+  	       
+  	       Fitness f = new Fitness(OriImage);
+  	      do{
+  	  	      System.out.println("Directionary: "+po.getDirPath());
+  	    	  for(int i=0;i<5;i++)
+  	    	  {
+  	    		  try{
+  	    			polynew.addPoint(new Integer(rand.nextInt((max - min) + 1) + min), new Integer(rand.nextInt((max - min) + 1) + min));
+  	    		  }
+  	    		catch(Exception e){
+  	    		}
+  	    	  }
+  	      po.setPolygon(polynew, z%50);
+  	      System.out.println(po.getPolygon(z%50));
+  	    z++;
   	     // NewFitness = f.getFitness("C:\\Users\\Jan\\git\\ProjectMonalisa\\EvoLisaTest\\src\\CompanionCubeComp2.png");
-  	      System.out.println(NewFitness);
+  	      //System.out.println(NewFitness);
   	      
   	      // checks if the new fitness is better than the old and if so replaces it.
   	      //f.getFitness(BetterPath)
   	      
-  	      //TODO
-  	      M.f.po.ge
-  	      if(M.f.getFitness(CompPath))
+  	      po.render();
+  	      
+  	      if(f.getFitness(new String(po.getFilePath())))
   	      {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;
   	    	  setText(lblimpVar,Long.toString(ImpVal));
+  	    	  //setText(,)
   	    	  //TODO/lblFitnessVal.setText(Integer.toString(OldFitness));
+  	    	  lblimage2.setIcon(new StretchIcon(po.getFilePath(),true));
   	      }
   	      
   	    
-  	      M.Mutate();
+  	      //TODO M.Mutate();
         	
   	     // do {
   	      
@@ -580,8 +602,13 @@ public class GUI extends JPanel {
          * @see javax.swing.Jlabel.setText()
          */
 		public static void setFitnessVal(double fitnessVal) {
+			
+			DecimalFormat df = new DecimalFormat("#.00");
 			FitnessVal = fitnessVal;
-			setText(lblFitnessVal,Double.toString(FitnessVal));
+			//setText(lblFitnessVal,Double.toString(FitnessVal));
+			setText(lblFitnessVal,df.format(fitnessVal)+"%");
+			lblimage2.setIcon(new StretchIcon(BetterFilePath,true));
+			
 		}
 		public static void BetterFilePath(String Path)
 		{

@@ -25,17 +25,18 @@ public class Fitness
 		  OriImage = Ori;
 	  }
  //   GUI gu = new GUI();
-    Polygongen po = new Polygongen(new Dimension(OriImage.getHeight(), OriImage.getWidth()));
+   //TODO Polygongen po = new Polygongen(new Dimension(OriImage.getHeight(), OriImage.getWidth()));
     DecimalFormat df = new DecimalFormat("#.000"); 
     
     
 //************************Handle Fitness internally***********************************************    
     
     // compares the image to the original and calculates the difference in %
-    protected boolean getFitness(BufferedImage Comp) throws IOException
+    protected boolean getFitness(String CompPath) throws IOException
     {
     	// gets the new inage to compare
-    	CompImage = Comp;//ImageIO.read(new File (CompPath));
+    	//CompImage = Comp;//
+    	CompImage =	ImageIO.read(new File (CompPath));
     	// restets the variables
     	pixleFitness =0;
     	fitness = 0;
@@ -47,18 +48,18 @@ public class Fitness
     		for(int y=0; y<OriImage.getHeight(); y++)
     		{
     			// gets the originals ARGB as an int and extracts the colors
-    			private int ori_argb = OriImage.getRGB(x, y);
+    			int ori_argb = OriImage.getRGB(x, y);
 //  			int ori_alpha = (ori_argb >> 24) & 0xFF;
-    			private int ori_red =   (ori_argb >> 16) & 0xFF;
-    			private int ori_green = (ori_argb >>  8) & 0xFF;
-    			private int ori_blue =  (ori_argb      ) & 0xFF;
+    			int ori_red =   (ori_argb >> 16) & 0xFF;
+    			int ori_green = (ori_argb >>  8) & 0xFF;
+    			int ori_blue =  (ori_argb      ) & 0xFF;
   		  
     			// same with the comapritive image
-    			private int comp_argb = CompImage.getRGB(x, y);
+    			int comp_argb = CompImage.getRGB(x, y);
 //  			int comp_alpha = (comp_argb >> 24) & 0xFF;
-    			private int comp_red =   (comp_argb >> 16) & 0xFF;
-    			private int comp_green = (comp_argb >>  8) & 0xFF;
-    			private int comp_blue =  (comp_argb      ) & 0xFF;
+    			int comp_red =   (comp_argb >> 16) & 0xFF;
+    			int comp_green = (comp_argb >>  8) & 0xFF;
+    			int comp_blue =  (comp_argb      ) & 0xFF;
 
     			// calculated the difference between the colors
     			deltaRed = ori_red - comp_red;
@@ -88,7 +89,7 @@ public class Fitness
 			GUI.setFitnessVal(fitness);
 			//gives the Polygongen the info that its a new optimum
 			better = true;
-//			po.isBetter();
+			Polygongen.isBetter();
 		}
 		return better;
     }	

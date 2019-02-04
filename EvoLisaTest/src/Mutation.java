@@ -53,8 +53,8 @@ public class Mutation{
 	
 
 		// gets the polygon Nr <choiceA>
-		poly = f.po.getPolygon(choiceA);
-		col = f.po.getColor(choiceA);
+		//TODO//poly = f.po.getPolygon(choiceA);
+		//TODO//col = f.po.getColor(choiceA);
 		
 		// splits the color into components
 		Red = col.getRed();
@@ -190,8 +190,8 @@ public class Mutation{
 	  		Color newCol = new Color(Red, Green, Blue, 25);
 	  		
 	  		// gives the data back to the Polygongen class
-	  		f.po.setPolygon( newPoly, choiceA);
-	  		f.po.setColor( newCol, choiceA);
+	  		//TODO//f.po.setPolygon( newPoly, choiceA);
+	  		//f.po.setColor( newCol, choiceA);
 		}
 	}	
 }
