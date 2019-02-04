@@ -23,7 +23,7 @@ public class Main
 	      // start of the do-while Loop
 	      // checks the image its given on its fitness and afterwards mutates the next version
 	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp.png";
-	      f.getFitness(Path);
+	      //f.getFitness(Path);
 	      //M.Mutate();
 
 	      // end of the do-while loop
@@ -31,7 +31,7 @@ public class Main
 	      // for testing only. usually handled by do-while loop
 	      // checks the image its given on its fitness and afterwards mutates the next version
 	      Path = "C:\\Users\\Robin\\eclipse-workspace\\MonaLisaProjekt\\src\\CompanionCubeComp2.png";
-	      f.getFitness(Path);
+	      //f.getFitness(Path);
 	      //M.Mutate();
 	  }	  
 }

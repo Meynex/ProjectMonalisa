@@ -182,6 +182,9 @@ public class GUI extends JPanel {
 			setText(lblFitnessVal, "0");
 			setText(lblimpVar, "0");
 			setText(lblGenVar, "0");
+			
+			lblimage1.setIcon(null);
+			
 			textFieldOpen.setText("");
 			textFieldOpen.setEditable(true);
 			TextFieldSave.setText("");
@@ -512,8 +515,9 @@ public class GUI extends JPanel {
   	      // checks if the new fitness is better than the old and if so replaces it.
   	      //f.getFitness(BetterPath)
   	      
-  	      //M.f.po.ge
-  	      //if(M.f.getFitness(CompPath))
+  	      //TODO
+  	      M.f.po.ge
+  	      if(M.f.getFitness(CompPath))
   	      {
   	    	  System.out.println("improvement.");
   	    	  ImpVal++;

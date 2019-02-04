@@ -1,0 +1,175 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+\author{Jan-Patrick Schulze}
+\title{Evo Monalisa}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Teamwork}
+\subsection{Who Does what?}
+
+
+
+\subsection{work structure}
+\subsection{ideas}
+
+
+
+\section{Introduction}
+\subsection{General topic}
+
+\section{Problem Description}
+
+\section{Related Work}
+
+Related Algorithms, Applications
+
+!Evolutionary Algorithms (Genetic Algortihms; Collective Intelligence like Particle Swarm Optimization - PSO, Ant Colony Optimizaton - ACO; Evolutionary Multiobjective Optimization, ...)
+
+
+\section{Proposed Approaches}
+
+Input/Output Format, Benchmarks (Generation, Examples)
+
+Algorithms in Pseudocode
+
+
+\section{Implementation Details}
+
+
+ Application Structure
+
+     GUI Details
+
+     UML Diagram
+
+     Used Libraries
+
+     Code Snippets
+     
+     
+ \subsection{Code Snippets}
+ \begin{lstlisting}
+// Hello.java
+import javax.swing.JApplet;
+import java.awt.Graphics;
+
+public class Hello extends JApplet {
+    public void paintComponent(Graphics g) {
+        g.drawString("Hello, world!", 65, 95);
+    }    
+}
+\end{lstlisting}
+
+\subsubsection{Fix the endless loop}
+
+
+\begin{lstlisting}
+	/*
+	 * Defines New Thread 
+	 */
+	private void start() 
+	{
+		t1 = new Thread(){
+			@Override
+			public void run(){
+			try {
+				Compare(textFieldOpen.getText());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			};
+		};
+		t1.start();
+		
+	}
+	private void stop()
+	{
+		t1.stop();
+	}
+\end{lstlisting}
+\subsubsection{Fix the Gui elements}
+\subsubsection*{init JFrame}
+\begin{lstlisting}
+	private void initialize() {
+		frame = new JFrame();
+		// Set the Size of the Window
+		frame.setBounds(100, 100, 828, 553);
+		// Set a fixed MinSize of the Window
+		frame.setMinimumSize(new Dimension(828,553));			
+		// Set Window in the Middle
+		frame.setLocationRelativeTo( null );			
+		// Do Exit on the Window Cross
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+\end{lstlisting}
+\subsubsection*{Set SplitPane Divider fixed}
+\begin{lstlisting}
+splitPane.setEnabled(false);	// set SPlitPane Divider Fixed //
+splitPane_1.setEnabled(false);	// ****************************//
+\end{lstlisting}
+
+\subsubsection{Fix the Draw Labels}
+\begin{lstlisting}
+// new Method to Draw Labels (fix stuck value)
+ private static void setText(final JLabel label, final String text){
+            label.setText(text);
+            label.paintImmediately(label.getVisibleRect());
+         }
+\end{lstlisting}
+
+
+
+\section{Experimental Results and Statistical Tests}
+
+Simulations (Play with the Parameters!)
+Use Benchmarks  
+Tables: input data details, results of different algorithms
+Charts
+Evaluations
+
+\section{Concolusions and Future Work}
+How was the team work
+
+What you have learned
+
+Ideas for the future development of your application, new algorithms
+\end{document}

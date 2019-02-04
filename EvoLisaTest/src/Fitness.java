@@ -1,5 +1,6 @@
 
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -24,7 +25,7 @@ public class Fitness
 		  OriImage = Ori;
 	  }
  //   GUI gu = new GUI();
-    Polygongen po = new Polygongen(OriImage.getHeight(), OriImage.getWidth());
+    Polygongen po = new Polygongen(new Dimension(OriImage.getHeight(), OriImage.getWidth()));
     DecimalFormat df = new DecimalFormat("#.000"); 
     
     
