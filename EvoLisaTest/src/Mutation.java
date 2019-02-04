@@ -43,7 +43,7 @@ public class Mutation{
 	{
 	
 		choiceA = Rand.nextInt(50);
-		choiceB = Rand.nextInt(3+2*corners)+1;
+		choiceB = Rand.nextInt(3+2*corners);
 		plumi = Rand.nextInt(2)+1;
 		change = Rand.nextInt(100)+1;
 		hight =Ori.getHeight();
