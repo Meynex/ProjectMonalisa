@@ -47,18 +47,18 @@ public class Fitness
     		for(int y=0; y<OriImage.getHeight(); y++)
     		{
     			// gets the originals ARGB as an int and extracts the colors
-    			int ori_argb = OriImage.getRGB(x, y);
+    			private int ori_argb = OriImage.getRGB(x, y);
 //  			int ori_alpha = (ori_argb >> 24) & 0xFF;
-    			int ori_red =   (ori_argb >> 16) & 0xFF;
-    			int ori_green = (ori_argb >>  8) & 0xFF;
-    			int ori_blue =  (ori_argb      ) & 0xFF;
+    			private int ori_red =   (ori_argb >> 16) & 0xFF;
+    			private int ori_green = (ori_argb >>  8) & 0xFF;
+    			private int ori_blue =  (ori_argb      ) & 0xFF;
   		  
     			// same with the comapritive image
-    			int comp_argb = CompImage.getRGB(x, y);
+    			private int comp_argb = CompImage.getRGB(x, y);
 //  			int comp_alpha = (comp_argb >> 24) & 0xFF;
-    			int comp_red =   (comp_argb >> 16) & 0xFF;
-    			int comp_green = (comp_argb >>  8) & 0xFF;
-    			int comp_blue =  (comp_argb      ) & 0xFF;
+    			private int comp_red =   (comp_argb >> 16) & 0xFF;
+    			private int comp_green = (comp_argb >>  8) & 0xFF;
+    			private int comp_blue =  (comp_argb      ) & 0xFF;
 
     			// calculated the difference between the colors
     			deltaRed = ori_red - comp_red;
